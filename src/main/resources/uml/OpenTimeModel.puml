@@ -1,0 +1,90 @@
+@startuml
+
+
+interface Schedulable
+interface Completable {
+  + isCompleted() : boolean
+  + setCompleted(boolean)
+}
+
+
+class User {
+  - semesters : List<Semester>
+  - work : Work
+}
+
+class Semester {
+  - courses : List<Course>
+  - schedule : Schedule
+}
+
+class Work {
+  - type : String
+  - isWorking : boolean
+  - hours : Hours
+}
+
+class Course {
+  - code : String
+  - name : String
+  - minTaskWeight : double
+  - difficulty : int
+  - tasks : List<Task>
+  - exam : Exam
+}
+
+class Hours {
+  - startTime : LocalTime
+  - endTime : LocalTime
+}
+
+class Material {
+  - name : String
+  - estimatedStudyTime : int
+  - isCompleted : boolean
+}
+
+class Schedule {
+  - dailySchedule : Map<LocalDate, List<Schedulable>>
+  - monthlySchedule : Map<YearMonth, List<Schedulable>>
+}
+
+' מחלקה אבסטרקטית חדשה
+abstract class CourseActivity {
+  - title : String
+  - hours : Hours
+  - completed : boolean
+  + isCompleted() : boolean
+  + setCompleted(boolean)
+}
+
+class Task {
+  - type : String
+  - weight : double
+  - material : Material
+  - priority : int
+}
+
+class Exam {
+  - date : LocalDate
+  - openBook : boolean
+}
+
+' היררכיות ויחסים
+User "1" --> "*" Semester
+User "1" --> "1" Work
+Semester "1" --> "*" Course
+Semester "1" --> "1" Schedule
+Course "1" --> "*" Task
+Course "1" --> "1" Exam
+Task "1" --> "1" Material
+
+CourseActivity --> Hours
+Task --> Material
+
+CourseActivity ..|> Schedulable
+CourseActivity ..|> Completable
+Task --|> CourseActivity
+Exam --|> CourseActivity
+
+@enduml
