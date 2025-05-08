@@ -1,13 +1,13 @@
 @startuml
 
-
+'Interfaces
 interface Schedulable
 interface Completable {
   + isCompleted() : boolean
   + setCompleted(boolean)
 }
 
-
+'Classes
 class User {
   - semesters : List<Semester>
   - work : Work
@@ -49,7 +49,7 @@ class Schedule {
   - monthlySchedule : Map<YearMonth, List<Schedulable>>
 }
 
-' מחלקה אבסטרקטית חדשה
+
 abstract class CourseActivity {
   - title : String
   - hours : Hours
@@ -70,7 +70,7 @@ class Exam {
   - openBook : boolean
 }
 
-' היררכיות ויחסים
+
 User "1" --> "*" Semester
 User "1" --> "1" Work
 Semester "1" --> "*" Course
